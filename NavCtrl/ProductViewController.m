@@ -7,6 +7,7 @@
 //
 
 #import "ProductViewController.h"
+#import "ProductWebView.h"
 
 @interface ProductViewController ()
 
@@ -19,6 +20,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.productWebView = [[WebViewController alloc] init];
     }
     return self;
 }
@@ -26,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
 
     // Uncomment the following line to preserve selection between presentations.
      self.clearsSelectionOnViewWillAppear = NO;
@@ -35,15 +39,38 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+    // convert these to a mutable array
     [super viewWillAppear:animated];
     
+    self.products = [[NSMutableArray alloc] init];
+    
     if ([self.title isEqualToString:@"Apple mobile devices"]) {
-        self.products = @[@"iPad", @"iPod Touch",@"iPhone"];
-    } else {
-        self.products = @[@"Galaxy S4", @"Galaxy Note", @"Galaxy Tab"];
+        [self.products addObject:@"iPad"];
+        [self.products addObject:@"iPod Touch"];
+        [self.products addObject:@"iPhone"];
     }
-    [self.tableView reloadData];
+    else if ([self.title isEqualToString:@"Samsung mobile devices"]){
+        [self.products addObject:@"Galaxy S7"];
+        [self.products addObject:@"Galaxy Note"];
+        [self.products addObject:@"Galaxy Tab"];
+    }
+    
+    else if ([self.title isEqualToString:@"Google mobile devices"]){
+        [self.products addObject:@"Nexus 5X"];
+        [self.products addObject:@"Nexus 6P"];
+        [self.products addObject:@"Pixel C"];
+    }
+    else if ([self.title isEqualToString:@"Tesla 'mobile devices'"]){
+        [self.products addObject:@"Model S"];
+        [self.products addObject:@"Model X"];
+        [self.products addObject:@"Model 3"];
+    }
+    else {
+        [self.products addObject:@"test"];
+        [self.products addObject:@"test"];
+        [self.products addObject:@"test"];
+}
+[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,15 +83,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     return [self.products count];
 }
 
@@ -89,26 +112,35 @@
 }
 */
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.products removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+        
+    }
+    
+}
+
+// Override to support editing the table view.
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        // Delete the row from the data source
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    }   
+//    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//    }   
+//}
+
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
 }
-*/
+
 
 /*
 // Override to support conditional rearranging of the table view.
@@ -119,22 +151,36 @@
 }
 */
 
-/*
+
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    
+//    
+//    [self.navigationController pushViewController:[self.productWebView animated:YES]];
+//    
+//    
+//}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+        self.productWebView = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
 
     // Pass the selected object to the new view controller.
     
     // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self.products objectAtIndex:[indexPath row]] forKey:@"productSelected"];
+    [defaults synchronize];
+    [self.navigationController pushViewController:self.productWebView animated:YES];
 }
  
- */
+
 
 @end

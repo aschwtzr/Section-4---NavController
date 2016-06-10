@@ -18,7 +18,6 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    
     if (self) {
         // Custom initialization
     }
@@ -35,9 +34,17 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    self.companyList = [[NSMutableArray alloc] init];
     
-    self.companyList = @[@"Apple mobile devices",@"Samsung mobile devices"];
+    [self.companyList addObject:@"Apple mobile devices"];
+    [self.companyList addObject:@"Samsung mobile devices"];
+    [self.companyList addObject:@"Google mobile devices"];
+    [self.companyList addObject:@"Tesla 'mobile devices'"];
+
+    
     self.title = @"Mobile device makers";
+    
+    
     
     
 }
@@ -52,14 +59,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.companyList count];
 }
@@ -72,9 +77,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    // Configure the cell...
+    // Configure the cell with title and image
     
     cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
+    
+    // generate the string that will set the background image based on the company name string
+    NSArray *companyNameArray = [[self.companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
+    
+    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
+    cell.imageView.image = [UIImage imageNamed:companyLogo];
     
     return cell;
 }
@@ -88,26 +99,27 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+        [self.companyList removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
 }
-*/
+
 
 /*
 // Override to support conditional rearranging of the table view.
@@ -124,13 +136,10 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self.companyList objectAtIndex:[indexPath row]] forKey:@"companySelected"];
+   self.productViewController.title = [defaults objectForKey:@"companySelected"];
 
-
-    if (indexPath.row == 0){
-        self.productViewController.title = @"Apple mobile devices";
-    } else {
-        self.productViewController.title = @"Samsung mobile devices";
-    }
     
     [self.navigationController
         pushViewController:self.productViewController
