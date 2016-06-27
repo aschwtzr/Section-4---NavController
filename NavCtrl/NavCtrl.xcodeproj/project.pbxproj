@@ -27,6 +27,9 @@
 		B23288841D08B54D00FB6A32 /* Comps in Resources */ = {isa = PBXBuildFile; fileRef = B23288821D08B54D00FB6A32 /* Comps */; };
 		B23288911D09E97300FB6A32 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B232888F1D09E97300FB6A32 /* WebViewController.m */; };
 		B23288921D09E97300FB6A32 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23288901D09E97300FB6A32 /* WebViewController.xib */; };
+		B23288951D0B8A0400FB6A32 /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288941D0B8A0400FB6A32 /* Company.m */; };
+		B23288991D0B8ADD00FB6A32 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288981D0B8ADD00FB6A32 /* Product.m */; };
+		B23288A31D185D2600FB6A32 /* DataAccessObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288A21D185D2600FB6A32 /* DataAccessObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,12 @@
 		B232888E1D09E97300FB6A32 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		B232888F1D09E97300FB6A32 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		B23288901D09E97300FB6A32 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		B23288931D0B8A0400FB6A32 /* Company.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Company.h; sourceTree = "<group>"; };
+		B23288941D0B8A0400FB6A32 /* Company.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Company.m; sourceTree = "<group>"; };
+		B23288971D0B8ADD00FB6A32 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		B23288981D0B8ADD00FB6A32 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		B23288A11D185D2600FB6A32 /* DataAccessObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAccessObject.h; sourceTree = "<group>"; };
+		B23288A21D185D2600FB6A32 /* DataAccessObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAccessObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,9 +163,11 @@
 		48A656BA18163BF200746D36 /* NavCtrl */ = {
 			isa = PBXGroup;
 			children = (
-				483796CB1BCBF7A00062D5AB /* AppDelegate */,
+				B23288A41D1862CA00FB6A32 /* DAO */,
 				483796CC1BCBF7C70062D5AB /* ParentViewController */,
 				483796CD1BCBF7EB0062D5AB /* ProductViewController */,
+				B23288961D0B8A3700FB6A32 /* Custom Object Classes */,
+				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				B23288881D08D8EA00FB6A32 /* ProductWebView */,
 				48A656C618163BF200746D36 /* Images.xcassets */,
 				B23288811D08B54D00FB6A32 /* Assets */,
@@ -204,6 +215,26 @@
 				B23288901D09E97300FB6A32 /* WebViewController.xib */,
 			);
 			name = ProductWebView;
+			sourceTree = "<group>";
+		};
+		B23288961D0B8A3700FB6A32 /* Custom Object Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B23288971D0B8ADD00FB6A32 /* Product.h */,
+				B23288981D0B8ADD00FB6A32 /* Product.m */,
+				B23288931D0B8A0400FB6A32 /* Company.h */,
+				B23288941D0B8A0400FB6A32 /* Company.m */,
+			);
+			name = "Custom Object Classes";
+			sourceTree = "<group>";
+		};
+		B23288A41D1862CA00FB6A32 /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				B23288A11D185D2600FB6A32 /* DataAccessObject.h */,
+				B23288A21D185D2600FB6A32 /* DataAccessObject.m */,
+			);
+			name = DAO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,7 +341,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23288A31D185D2600FB6A32 /* DataAccessObject.m in Sources */,
+				B23288991D0B8ADD00FB6A32 /* Product.m in Sources */,
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
+				B23288951D0B8A0400FB6A32 /* Company.m in Sources */,
 				B23288911D09E97300FB6A32 /* WebViewController.m in Sources */,
 				48A656C518163BF200746D36 /* NavControllerAppDelegate.m in Sources */,
 				48A656C118163BF200746D36 /* main.m in Sources */,

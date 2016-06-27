@@ -8,8 +8,11 @@
 
 #import "ProductViewController.h"
 #import "ProductWebView.h"
+#import "DataAccessObject.h"
+
 
 @interface ProductViewController ()
+@property Company *currentCompany;
 
 @end
 
@@ -30,6 +33,13 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
+    
+    _companyList = [[DataAccessObject sharedManager] companyList];
+
+    
+    self.currentCompany = [[Company alloc] init];
+    self.currentCompany = _companyList[[defaults integerForKey:@"row"]];
+
 
     // Uncomment the following line to preserve selection between presentations.
      self.clearsSelectionOnViewWillAppear = NO;
@@ -42,35 +52,49 @@
     // convert these to a mutable array
     [super viewWillAppear:animated];
     
-    self.products = [[NSMutableArray alloc] init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
     
-    if ([self.title isEqualToString:@"Apple mobile devices"]) {
-        [self.products addObject:@"iPad"];
-        [self.products addObject:@"iPod Touch"];
-        [self.products addObject:@"iPhone"];
-    }
-    else if ([self.title isEqualToString:@"Samsung mobile devices"]){
-        [self.products addObject:@"Galaxy S7"];
-        [self.products addObject:@"Galaxy Note"];
-        [self.products addObject:@"Galaxy Tab"];
-    }
+    self.currentCompany = _companyList[[defaults integerForKey:@"row"]];
+//self.currentCompany.products;
+
     
-    else if ([self.title isEqualToString:@"Google mobile devices"]){
-        [self.products addObject:@"Nexus 5X"];
-        [self.products addObject:@"Nexus 6P"];
-        [self.products addObject:@"Pixel C"];
-    }
-    else if ([self.title isEqualToString:@"Tesla 'mobile devices'"]){
-        [self.products addObject:@"Model S"];
-        [self.products addObject:@"Model X"];
-        [self.products addObject:@"Model 3"];
-    }
-    else {
-        [self.products addObject:@"test"];
-        [self.products addObject:@"test"];
-        [self.products addObject:@"test"];
-}
+//    this code used to populate the array which is now part of the Company object
+//    
+//    if ([self.title isEqualToString:@"Apple mobile devices"]) {
+//        
+//        [self.currentCompany.products addObject:@"iPad"];
+//        [self.currentCompany.products addObject:@"iPod Touch"];
+//        [self.currentCompany.products addObject:@"iPhone"];
+//    }
+//    else if ([self.title isEqualToString:@"Samsung mobile devices"]){
+//
+//        [self.currentCompany.products addObject:@"Galaxy S7"];
+//        [self.currentCompany.products addObject:@"Galaxy Note"];
+//        [self.currentCompany.products addObject:@"Galaxy Tab"];
+//    }
+//    
+//    else if ([self.title isEqualToString:@"Google mobile devices"]){
+//
+//        [self.currentCompany.products addObject:@"Nexus 5X"];
+//        [self.currentCompany.products addObject:@"Nexus 6P"];
+//        [self.currentCompany.products addObject:@"Pixel C"];
+//    }
+//    else if ([self.title isEqualToString:@"Tesla 'mobile devices'"]){
+//        
+//        [self.currentCompany.products addObject:@"Model S"];
+//        [self.currentCompany.products addObject:@"Model X"];
+//        [self.currentCompany.products addObject:@"Model 3"];
+//    }
+//    else {
+//
+//        [self.currentCompany.products addObject:@"test"];
+//        [self.currentCompany.products addObject:@"test"];
+//        [self.currentCompany.products addObject:@"test"];
+//}
+    
 [self.tableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -88,7 +112,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.products count];
+    return [self.currentCompany.products count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,7 +123,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    cell.textLabel.text = [self.products objectAtIndex:[indexPath row]];
+    
+    cell.textLabel.text = [self.currentCompany.products[[indexPath row]] valueForKey:@"name"];
+//    cell.textLabel.text = [_companyList[[indexPath row]] valueForKey:@"name"];
+
     return cell;
 }
 
@@ -115,7 +142,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.products removeObjectAtIndex:indexPath.row];
+        [self.currentCompany.products removeObjectAtIndex:indexPath.row];
         [self.tableView reloadData];
         
     }
@@ -170,13 +197,16 @@
 {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-        self.productWebView = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    
+    self.productWebView = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];
+    self.currentCompany = _companyList[[defaults integerForKey:@"row"]];
 
     // Pass the selected object to the new view controller.
     
     // Push the view controller.
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[self.products objectAtIndex:[indexPath row]] forKey:@"productSelected"];
+    [defaults setObject:[self.currentCompany.products[[indexPath row]] valueForKey:@"name"] forKey:@"productSelected"];
     [defaults synchronize];
     [self.navigationController pushViewController:self.productWebView animated:YES];
 }

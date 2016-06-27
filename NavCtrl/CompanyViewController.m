@@ -8,6 +8,7 @@
 
 #import "CompanyViewController.h"
 #import "ProductViewController.h"
+#import "DataAccessObject.h"
 
 @interface CompanyViewController ()
 
@@ -34,19 +35,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.companyList = [[NSMutableArray alloc] init];
-    
-    [self.companyList addObject:@"Apple mobile devices"];
-    [self.companyList addObject:@"Samsung mobile devices"];
-    [self.companyList addObject:@"Google mobile devices"];
-    [self.companyList addObject:@"Tesla 'mobile devices'"];
-
+    _companyList = [[DataAccessObject sharedManager] companyList];
     
     self.title = @"Mobile device makers";
     
-    
-    
-    
+//    self.dao = [DataAccessObject sharedManager];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,7 +59,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.companyList count];
+    return [_companyList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,13 +72,15 @@
     
     // Configure the cell with title and image
     
-    cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
+    
+    cell.textLabel.text = [_companyList[[indexPath row]] valueForKey:@"name"];
     
     // generate the string that will set the background image based on the company name string
-    NSArray *companyNameArray = [[self.companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
+//    NSArray *companyNameArray = [[_companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
+//    
+//    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
     
-    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
-    cell.imageView.image = [UIImage imageNamed:companyLogo];
+    cell.imageView.image = [UIImage imageNamed:[_companyList[[indexPath row]] valueForKey:@"imageName"]];
     
     return cell;
 }
@@ -105,7 +100,7 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [self.companyList removeObjectAtIndex:indexPath.row];
+        [_companyList removeObjectAtIndex:indexPath.row];
         [self.tableView reloadData];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -137,7 +132,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[self.companyList objectAtIndex:[indexPath row]] forKey:@"companySelected"];
+    [defaults synchronize];
+    [defaults setObject:[_companyList[[indexPath row]] valueForKey:@"name"] forKey:@"companySelected"];
+    [defaults setInteger:indexPath.row forKey:@"row"];
+
+    NSArray *companyNameArray = [[defaults objectForKey:@"companySelected"] componentsSeparatedByString:@" "];
+
+    NSString *lowercaseCompanySelected = [NSString stringWithFormat:@"%@", [companyNameArray objectAtIndex:0]];
+    lowercaseCompanySelected = [lowercaseCompanySelected lowercaseString];
+    
+    [defaults setObject:lowercaseCompanySelected forKey:@"lowercaseCompanySelected"];
+    [defaults synchronize];
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+
+    
    self.productViewController.title = [defaults objectForKey:@"companySelected"];
 
     
