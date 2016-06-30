@@ -10,6 +10,7 @@
 #import "ProductViewController.h"
 #import "DataAccessObject.h"
 
+
 @interface CompanyViewController ()
 
 @end
@@ -34,12 +35,26 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn-navAdd.png"] style:UIBarButtonItemStyleDone target:self action:@selector(addCompany:)];
+    
+    [self.navigationItem setLeftBarButtonItem:addButton];
     
     _companyList = [[DataAccessObject sharedManager] companyList];
     
     self.title = @"Mobile device makers";
     
+    self.tableView.allowsSelectionDuringEditing = TRUE;
+    
+    self.editCompany = [[EditCompany alloc] init];
+    self.editCompany.companyViewController = self;
+    
+    
+    
 //    self.dao = [DataAccessObject sharedManager];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,6 +77,16 @@
     return [_companyList count];
 }
 
+-(IBAction)addCompany:(id)sender {
+    AddCompany *thatCompany = [[AddCompany alloc] init];
+//    AddCompany *userCompany = [[AddCompany alloc] init];
+    
+    [self.navigationController
+     pushViewController:thatCompany
+     animated:YES];
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -74,8 +99,10 @@
     
     
     cell.textLabel.text = [_companyList[[indexPath row]] valueForKey:@"name"];
+
+/*Pre DAO code for reference */
     
-    // generate the string that will set the background image based on the company name string
+// generate the string that will set the background image based on the company name string
 //    NSArray *companyNameArray = [[_companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
 //    
 //    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
@@ -104,8 +131,10 @@
         [self.tableView reloadData];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        [self.navigationController
+         pushViewController:self.userCompany
+         animated:YES];
+    }
 }
 
 
@@ -113,6 +142,7 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    
 }
 
 
@@ -128,9 +158,11 @@
 
 #pragma mark - Table view delegate
 
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
     [defaults setObject:[_companyList[[indexPath row]] valueForKey:@"name"] forKey:@"companySelected"];
@@ -144,16 +176,24 @@
     [defaults setObject:lowercaseCompanySelected forKey:@"lowercaseCompanySelected"];
     [defaults synchronize];
     NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+    
+    if (tableView.editing == YES) {
+        
+        [self.navigationController
+         pushViewController:self.editCompany
+         animated:YES];
+    }
 
     
-   self.productViewController.title = [defaults objectForKey:@"companySelected"];
+    else {
+    self.productViewController.title = [defaults objectForKey:@"companySelected"];
 
     
     [self.navigationController
         pushViewController:self.productViewController
         animated:YES];
     
-
+    }
 }
  
 

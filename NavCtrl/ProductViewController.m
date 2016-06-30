@@ -56,42 +56,7 @@
     [defaults synchronize];
     
     self.currentCompany = _companyList[[defaults integerForKey:@"row"]];
-//self.currentCompany.products;
 
-    
-//    this code used to populate the array which is now part of the Company object
-//    
-//    if ([self.title isEqualToString:@"Apple mobile devices"]) {
-//        
-//        [self.currentCompany.products addObject:@"iPad"];
-//        [self.currentCompany.products addObject:@"iPod Touch"];
-//        [self.currentCompany.products addObject:@"iPhone"];
-//    }
-//    else if ([self.title isEqualToString:@"Samsung mobile devices"]){
-//
-//        [self.currentCompany.products addObject:@"Galaxy S7"];
-//        [self.currentCompany.products addObject:@"Galaxy Note"];
-//        [self.currentCompany.products addObject:@"Galaxy Tab"];
-//    }
-//    
-//    else if ([self.title isEqualToString:@"Google mobile devices"]){
-//
-//        [self.currentCompany.products addObject:@"Nexus 5X"];
-//        [self.currentCompany.products addObject:@"Nexus 6P"];
-//        [self.currentCompany.products addObject:@"Pixel C"];
-//    }
-//    else if ([self.title isEqualToString:@"Tesla 'mobile devices'"]){
-//        
-//        [self.currentCompany.products addObject:@"Model S"];
-//        [self.currentCompany.products addObject:@"Model X"];
-//        [self.currentCompany.products addObject:@"Model 3"];
-//    }
-//    else {
-//
-//        [self.currentCompany.products addObject:@"test"];
-//        [self.currentCompany.products addObject:@"test"];
-//        [self.currentCompany.products addObject:@"test"];
-//}
     
 [self.tableView reloadData];
     
