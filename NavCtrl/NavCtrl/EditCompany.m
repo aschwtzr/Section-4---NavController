@@ -13,6 +13,7 @@
 @end
 
 @implementation EditCompany
+@synthesize companyViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,10 +46,9 @@
     [self.view endEditing:YES];
     [super touchesBegan:touches withEvent:event];
 }
+
 - (IBAction)save:(id)sender {
-//    self.companyViewController = [[CompanyViewController alloc] init];
-    
-    [self.navigationController pushViewController:self.companyViewController animated:YES];
+    [self.navigationController popToViewController:companyViewController animated:YES];
 }
 
 /*

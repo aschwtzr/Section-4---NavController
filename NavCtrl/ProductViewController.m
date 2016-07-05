@@ -172,6 +172,7 @@
     
     // Push the view controller.
     [defaults setObject:[self.currentCompany.products[[indexPath row]] valueForKey:@"name"] forKey:@"productSelected"];
+    [defaults setInteger:[indexPath row] forKey:@"productRow"];
     [defaults synchronize];
     [self.navigationController pushViewController:self.productWebView animated:YES];
 }

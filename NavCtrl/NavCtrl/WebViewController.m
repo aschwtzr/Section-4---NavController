@@ -22,13 +22,14 @@
     
     _companyList = [[DataAccessObject sharedManager] companyList];
     self.currentCompany = [[Company alloc] init];
-    self.currentCompany = _companyList[[defaults integerForKey:@"row"]];
+    self.currentCompany = self.companyList[[defaults integerForKey:@"row"]];
     self.currentProduct = [[Product alloc] init];
-//    self.currentProduct = _currentCompany.products valueForKey:[defaults objectForKey:@"productSelected"];
+    self.currentProduct = self.currentCompany.products[[defaults integerForKey:@"productRow"]];
 
     self.productURLDictionary = [[NSMutableDictionary alloc] init];
     [self loadProductURLDictionary];
-    NSString *url = [self.productURLDictionary objectForKey:[defaults objectForKey:@"productSelected"]];
+    NSString *url = self.currentProduct.productURL;
+//    [self.productURLDictionary objectForKey:[defaults objectForKey:@"productSelected"]];
     
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     

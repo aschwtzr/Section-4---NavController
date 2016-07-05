@@ -13,6 +13,8 @@
 @end
 
 @implementation AddCompany
+@synthesize companyViewController;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,9 +78,8 @@
     
     else {
     [_companyList addObject:self.userCompany];
-    self.companyViewController = [[CompanyViewController alloc] init];
 
-    [self.navigationController pushViewController:self.companyViewController animated:YES];
+    [self.navigationController popToViewController:companyViewController animated:YES];
     }
 }
 

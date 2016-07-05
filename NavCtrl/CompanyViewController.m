@@ -13,6 +13,7 @@
 
 @interface CompanyViewController ()
 
+
 @end
 
 @implementation CompanyViewController
@@ -29,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
      self.clearsSelectionOnViewWillAppear = NO;
  
@@ -46,14 +47,19 @@
     self.tableView.allowsSelectionDuringEditing = TRUE;
     
     self.editCompany = [[EditCompany alloc] init];
+    self.addCompany = [[AddCompany alloc] init];
+    self.stockPrice = [[NSString alloc] init];
     self.editCompany.companyViewController = self;
+    self.addCompany.companyViewController = self;
     
+
     
     
 //    self.dao = [DataAccessObject sharedManager];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    [self fetchMarket];
     [self.tableView reloadData];
 }
 
@@ -78,11 +84,9 @@
 }
 
 -(IBAction)addCompany:(id)sender {
-    AddCompany *thatCompany = [[AddCompany alloc] init];
-//    AddCompany *userCompany = [[AddCompany alloc] init];
     
     [self.navigationController
-     pushViewController:thatCompany
+     pushViewController:_addCompany
      animated:YES];
     
 }
@@ -92,20 +96,19 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell with title and image
     
     
-    cell.textLabel.text = [_companyList[[indexPath row]] valueForKey:@"name"];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",[_companyList[[indexPath row]] valueForKey:@"name"]];
+    if (self.priceList != nil){
+//        _priceList = [self.stockPrice componentsSeparatedByString:@"\n"];
+        cell.detailTextLabel.text = [NSString stringWithFormat: @"%@", self.priceList[[indexPath row]]];
+    }
+    //                           [_companyList[[indexPath row]] valueForKey:@"name"],[self.priceList[0]]];
 
-/*Pre DAO code for reference */
-    
-// generate the string that will set the background image based on the company name string
-//    NSArray *companyNameArray = [[_companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
-//    
-//    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
     
     cell.imageView.image = [UIImage imageNamed:[_companyList[[indexPath row]] valueForKey:@"imageName"]];
     
@@ -132,7 +135,7 @@
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         [self.navigationController
-         pushViewController:self.userCompany
+         pushViewController:self.addCompany
          animated:YES];
     }
 }
@@ -142,6 +145,51 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    
+}
+
+- (IBAction)fetchMarket;
+{
+    
+    self.stockTickerRequest = [[self.companyList valueForKey:@"stockSymbol"] componentsJoinedByString:@"+"];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://finance.yahoo.com/d/quotes.csv?s=%@&f=a",self.stockTickerRequest]];
+    
+    //GET request is below
+    NSMutableURLRequest *request =  [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      NSLog(@"Got response %@ with error %@.\n", response, error);
+                                      NSLog(@"DATA:\n%@\nEND DATA\n",
+                                            [[NSString alloc] initWithData: data
+                                                                  encoding: NSUTF8StringEncoding]);
+                                      
+                                      NSString *askPrice = [[NSString alloc] initWithData: data
+                                                                                 encoding: NSUTF8StringEncoding];
+                                      
+                                      self.priceList = [[[NSMutableArray alloc] init] autorelease];
+                                      self.stockPrice = askPrice;
+                                      self.priceList = (NSMutableArray*)[askPrice componentsSeparatedByString:@"\n"];
+                                      
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          [self.tableView reloadData];
+                                      });
+                                      
+
+                                      
+                                      
+                                      
+                                  }];
+    
+    
+    [task resume];
+    
+    
+    
     
 }
 
