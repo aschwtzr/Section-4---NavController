@@ -5,9 +5,9 @@
 //  Created by Albert Schweitzer on 6/9/16.
 //  Copyright © 2016 Aditya Narayan. All rights reserved.
 //
-
-#import "WebViewController.h"
 #import <WebKit/WebKit.h>
+#import "WebViewController.h"
+
 
 @interface WebViewController ()
 
@@ -19,9 +19,17 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
+    
+    _companyList = [[DataAccessObject sharedManager] companyList];
+    self.currentCompany = [[Company alloc] init];
+    self.currentCompany = self.companyList[[defaults integerForKey:@"row"]];
+    self.currentProduct = [[Product alloc] init];
+    self.currentProduct = self.currentCompany.products[[defaults integerForKey:@"productRow"]];
+
     self.productURLDictionary = [[NSMutableDictionary alloc] init];
     [self loadProductURLDictionary];
-    NSString *url = [self.productURLDictionary objectForKey:[defaults objectForKey:@"productSelected"]];
+    NSString *url = self.currentProduct.productURL;
+//    [self.productURLDictionary objectForKey:[defaults objectForKey:@"productSelected"]];
     
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     

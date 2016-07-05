@@ -27,6 +27,17 @@
 		B23288841D08B54D00FB6A32 /* Comps in Resources */ = {isa = PBXBuildFile; fileRef = B23288821D08B54D00FB6A32 /* Comps */; };
 		B23288911D09E97300FB6A32 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B232888F1D09E97300FB6A32 /* WebViewController.m */; };
 		B23288921D09E97300FB6A32 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B23288901D09E97300FB6A32 /* WebViewController.xib */; };
+		B23288951D0B8A0400FB6A32 /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288941D0B8A0400FB6A32 /* Company.m */; };
+		B23288991D0B8ADD00FB6A32 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288981D0B8ADD00FB6A32 /* Product.m */; };
+		B23288A31D185D2600FB6A32 /* DataAccessObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B23288A21D185D2600FB6A32 /* DataAccessObject.m */; };
+		B28368241D21D439008DB53C /* AddCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = B28368221D21D439008DB53C /* AddCompany.m */; };
+		B28368251D21D439008DB53C /* AddCompany.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28368231D21D439008DB53C /* AddCompany.xib */; };
+		B28368291D21D451008DB53C /* AddProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = B28368271D21D451008DB53C /* AddProduct.m */; };
+		B283682A1D21D451008DB53C /* AddProduct.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28368281D21D451008DB53C /* AddProduct.xib */; };
+		B283682D1D236F3C008DB53C /* btn-navAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = B283682C1D236F3C008DB53C /* btn-navAdd.png */; };
+		B283682F1D244FD5008DB53C /* CompanyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B283682E1D244FD5008DB53C /* CompanyViewController.xib */; };
+		B28368331D246823008DB53C /* EditCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = B28368311D246823008DB53C /* EditCompany.m */; };
+		B28368341D246823008DB53C /* EditCompany.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28368321D246823008DB53C /* EditCompany.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +78,23 @@
 		B232888E1D09E97300FB6A32 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		B232888F1D09E97300FB6A32 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		B23288901D09E97300FB6A32 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		B23288931D0B8A0400FB6A32 /* Company.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Company.h; sourceTree = "<group>"; };
+		B23288941D0B8A0400FB6A32 /* Company.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Company.m; sourceTree = "<group>"; };
+		B23288971D0B8ADD00FB6A32 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		B23288981D0B8ADD00FB6A32 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		B23288A11D185D2600FB6A32 /* DataAccessObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAccessObject.h; sourceTree = "<group>"; };
+		B23288A21D185D2600FB6A32 /* DataAccessObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAccessObject.m; sourceTree = "<group>"; };
+		B28368211D21D439008DB53C /* AddCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddCompany.h; path = ../AddCompany.h; sourceTree = "<group>"; };
+		B28368221D21D439008DB53C /* AddCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddCompany.m; path = ../AddCompany.m; sourceTree = "<group>"; };
+		B28368231D21D439008DB53C /* AddCompany.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddCompany.xib; path = ../AddCompany.xib; sourceTree = "<group>"; };
+		B28368261D21D451008DB53C /* AddProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddProduct.h; path = ../AddProduct.h; sourceTree = "<group>"; };
+		B28368271D21D451008DB53C /* AddProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddProduct.m; path = ../AddProduct.m; sourceTree = "<group>"; };
+		B28368281D21D451008DB53C /* AddProduct.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddProduct.xib; path = ../AddProduct.xib; sourceTree = "<group>"; };
+		B283682C1D236F3C008DB53C /* btn-navAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-navAdd.png"; path = "../InfoOrganizerDesignAndAssets/Assets/Nav Buttons/btn-navAdd.png"; sourceTree = "<group>"; };
+		B283682E1D244FD5008DB53C /* CompanyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompanyViewController.xib; sourceTree = SOURCE_ROOT; };
+		B28368301D246823008DB53C /* EditCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCompany.h; sourceTree = "<group>"; };
+		B28368311D246823008DB53C /* EditCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCompany.m; sourceTree = "<group>"; };
+		B28368321D246823008DB53C /* EditCompany.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditCompany.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +136,7 @@
 			children = (
 				48A656E318163C1B00746D36 /* CompanyViewController.h */,
 				48A656E418163C1B00746D36 /* CompanyViewController.m */,
+				B283682E1D244FD5008DB53C /* CompanyViewController.xib */,
 			);
 			name = ParentViewController;
 			sourceTree = "<group>";
@@ -124,6 +153,7 @@
 		48A656A818163BF200746D36 = {
 			isa = PBXGroup;
 			children = (
+				B283682C1D236F3C008DB53C /* btn-navAdd.png */,
 				48A656BA18163BF200746D36 /* NavCtrl */,
 				48A656D318163BF200746D36 /* NavCtrlTests */,
 				48A656B318163BF200746D36 /* Frameworks */,
@@ -154,9 +184,12 @@
 		48A656BA18163BF200746D36 /* NavCtrl */ = {
 			isa = PBXGroup;
 			children = (
-				483796CB1BCBF7A00062D5AB /* AppDelegate */,
+				B283681D1D21D3B8008DB53C /* Object Editing VCs */,
+				B23288A41D1862CA00FB6A32 /* DAO */,
 				483796CC1BCBF7C70062D5AB /* ParentViewController */,
 				483796CD1BCBF7EB0062D5AB /* ProductViewController */,
+				B23288961D0B8A3700FB6A32 /* Custom Object Classes */,
+				483796CB1BCBF7A00062D5AB /* AppDelegate */,
 				B23288881D08D8EA00FB6A32 /* ProductWebView */,
 				48A656C618163BF200746D36 /* Images.xcassets */,
 				B23288811D08B54D00FB6A32 /* Assets */,
@@ -204,6 +237,42 @@
 				B23288901D09E97300FB6A32 /* WebViewController.xib */,
 			);
 			name = ProductWebView;
+			sourceTree = "<group>";
+		};
+		B23288961D0B8A3700FB6A32 /* Custom Object Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B23288971D0B8ADD00FB6A32 /* Product.h */,
+				B23288981D0B8ADD00FB6A32 /* Product.m */,
+				B23288931D0B8A0400FB6A32 /* Company.h */,
+				B23288941D0B8A0400FB6A32 /* Company.m */,
+			);
+			name = "Custom Object Classes";
+			sourceTree = "<group>";
+		};
+		B23288A41D1862CA00FB6A32 /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				B23288A11D185D2600FB6A32 /* DataAccessObject.h */,
+				B23288A21D185D2600FB6A32 /* DataAccessObject.m */,
+			);
+			name = DAO;
+			sourceTree = "<group>";
+		};
+		B283681D1D21D3B8008DB53C /* Object Editing VCs */ = {
+			isa = PBXGroup;
+			children = (
+				B28368211D21D439008DB53C /* AddCompany.h */,
+				B28368221D21D439008DB53C /* AddCompany.m */,
+				B28368231D21D439008DB53C /* AddCompany.xib */,
+				B28368261D21D451008DB53C /* AddProduct.h */,
+				B28368271D21D451008DB53C /* AddProduct.m */,
+				B28368281D21D451008DB53C /* AddProduct.xib */,
+				B28368301D246823008DB53C /* EditCompany.h */,
+				B28368311D246823008DB53C /* EditCompany.m */,
+				B28368321D246823008DB53C /* EditCompany.xib */,
+			);
+			name = "Object Editing VCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,13 +354,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B283682D1D236F3C008DB53C /* btn-navAdd.png in Resources */,
+				B283682A1D21D451008DB53C /* AddProduct.xib in Resources */,
 				B23288831D08B54D00FB6A32 /* Assets in Resources */,
 				48A656EE1816468000746D36 /* Sunflower.gif in Resources */,
+				B283682F1D244FD5008DB53C /* CompanyViewController.xib in Resources */,
+				B28368341D246823008DB53C /* EditCompany.xib in Resources */,
 				48A656E718163C1B00746D36 /* CompanyViewController.xib in Resources */,
 				B23288921D09E97300FB6A32 /* WebViewController.xib in Resources */,
 				B23288841D08B54D00FB6A32 /* Comps in Resources */,
 				48A656BF18163BF200746D36 /* InfoPlist.strings in Resources */,
 				48A656C718163BF200746D36 /* Images.xcassets in Resources */,
+				B28368251D21D439008DB53C /* AddCompany.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +384,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23288A31D185D2600FB6A32 /* DataAccessObject.m in Sources */,
+				B28368241D21D439008DB53C /* AddCompany.m in Sources */,
+				B23288991D0B8ADD00FB6A32 /* Product.m in Sources */,
 				48A656E618163C1B00746D36 /* CompanyViewController.m in Sources */,
+				B23288951D0B8A0400FB6A32 /* Company.m in Sources */,
+				B28368291D21D451008DB53C /* AddProduct.m in Sources */,
+				B28368331D246823008DB53C /* EditCompany.m in Sources */,
 				B23288911D09E97300FB6A32 /* WebViewController.m in Sources */,
 				48A656C518163BF200746D36 /* NavControllerAppDelegate.m in Sources */,
 				48A656C118163BF200746D36 /* main.m in Sources */,

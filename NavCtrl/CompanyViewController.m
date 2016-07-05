@@ -8,8 +8,11 @@
 
 #import "CompanyViewController.h"
 #import "ProductViewController.h"
+#import "DataAccessObject.h"
+
 
 @interface CompanyViewController ()
+
 
 @end
 
@@ -27,26 +30,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
      self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btn-navAdd.png"] style:UIBarButtonItemStyleDone target:self action:@selector(addCompany:)];
     
-    self.companyList = [[NSMutableArray alloc] init];
+    [self.navigationItem setLeftBarButtonItem:addButton];
     
-    [self.companyList addObject:@"Apple mobile devices"];
-    [self.companyList addObject:@"Samsung mobile devices"];
-    [self.companyList addObject:@"Google mobile devices"];
-    [self.companyList addObject:@"Tesla 'mobile devices'"];
-
+    _companyList = [[DataAccessObject sharedManager] companyList];
     
     self.title = @"Mobile device makers";
     
+    self.tableView.allowsSelectionDuringEditing = TRUE;
+    
+    self.editCompany = [[EditCompany alloc] init];
+    self.addCompany = [[AddCompany alloc] init];
+    self.stockPrice = [[NSString alloc] init];
+    self.editCompany.companyViewController = self;
+    self.addCompany.companyViewController = self;
+    
+
     
     
-    
+//    self.dao = [DataAccessObject sharedManager];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self fetchMarket];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,7 +80,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.companyList count];
+    return [_companyList count];
+}
+
+-(IBAction)addCompany:(id)sender {
+    
+    [self.navigationController
+     pushViewController:_addCompany
+     animated:YES];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,18 +96,21 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell with title and image
     
-    cell.textLabel.text = [self.companyList objectAtIndex:[indexPath row]];
     
-    // generate the string that will set the background image based on the company name string
-    NSArray *companyNameArray = [[self.companyList objectAtIndex:[indexPath row]] componentsSeparatedByString:@" "];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",[_companyList[[indexPath row]] valueForKey:@"name"]];
+    if (self.priceList != nil){
+//        _priceList = [self.stockPrice componentsSeparatedByString:@"\n"];
+        cell.detailTextLabel.text = [NSString stringWithFormat: @"%@", self.priceList[[indexPath row]]];
+    }
+    //                           [_companyList[[indexPath row]] valueForKey:@"name"],[self.priceList[0]]];
+
     
-    NSString *companyLogo = [NSString stringWithFormat:@"img-companyLogo_%@.png", [companyNameArray objectAtIndex:0]];
-    cell.imageView.image = [UIImage imageNamed:companyLogo];
+    cell.imageView.image = [UIImage imageNamed:[_companyList[[indexPath row]] valueForKey:@"imageName"]];
     
     return cell;
 }
@@ -105,12 +130,14 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [self.companyList removeObjectAtIndex:indexPath.row];
+        [_companyList removeObjectAtIndex:indexPath.row];
         [self.tableView reloadData];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+        [self.navigationController
+         pushViewController:self.addCompany
+         animated:YES];
+    }
 }
 
 
@@ -118,6 +145,52 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    
+}
+
+- (IBAction)fetchMarket;
+{
+    
+    self.stockTickerRequest = [[self.companyList valueForKey:@"stockSymbol"] componentsJoinedByString:@"+"];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://finance.yahoo.com/d/quotes.csv?s=%@&f=a",self.stockTickerRequest]];
+    
+    //GET request is below
+    NSMutableURLRequest *request =  [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      NSLog(@"Got response %@ with error %@.\n", response, error);
+                                      NSLog(@"DATA:\n%@\nEND DATA\n",
+                                            [[NSString alloc] initWithData: data
+                                                                  encoding: NSUTF8StringEncoding]);
+                                      
+                                      NSString *askPrice = [[NSString alloc] initWithData: data
+                                                                                 encoding: NSUTF8StringEncoding];
+                                      
+                                      self.priceList = [[[NSMutableArray alloc] init] autorelease];
+                                      self.stockPrice = askPrice;
+                                      self.priceList = (NSMutableArray*)[askPrice componentsSeparatedByString:@"\n"];
+                                      
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          [self.tableView reloadData];
+                                      });
+                                      
+
+                                      
+                                      
+                                      
+                                  }];
+    
+    
+    [task resume];
+    
+    
+    
+    
 }
 
 
@@ -133,19 +206,42 @@
 
 #pragma mark - Table view delegate
 
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[self.companyList objectAtIndex:[indexPath row]] forKey:@"companySelected"];
-   self.productViewController.title = [defaults objectForKey:@"companySelected"];
+    [defaults synchronize];
+    [defaults setObject:[_companyList[[indexPath row]] valueForKey:@"name"] forKey:@"companySelected"];
+    [defaults setInteger:indexPath.row forKey:@"row"];
+
+    NSArray *companyNameArray = [[defaults objectForKey:@"companySelected"] componentsSeparatedByString:@" "];
+
+    NSString *lowercaseCompanySelected = [NSString stringWithFormat:@"%@", [companyNameArray objectAtIndex:0]];
+    lowercaseCompanySelected = [lowercaseCompanySelected lowercaseString];
+    
+    [defaults setObject:lowercaseCompanySelected forKey:@"lowercaseCompanySelected"];
+    [defaults synchronize];
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+    
+    if (tableView.editing == YES) {
+        
+        [self.navigationController
+         pushViewController:self.editCompany
+         animated:YES];
+    }
+
+    
+    else {
+    self.productViewController.title = [defaults objectForKey:@"companySelected"];
 
     
     [self.navigationController
         pushViewController:self.productViewController
         animated:YES];
     
-
+    }
 }
  
 
